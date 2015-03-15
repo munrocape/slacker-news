@@ -22,7 +22,7 @@ func getHnTop10() (string, error) {
 	var stories []int
 	stories, err := c.GetTop100()
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 	
 	var urls [10]string
