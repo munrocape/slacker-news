@@ -25,5 +25,5 @@ func index(w http.ResponseWriter, r *http.Request) {
 func news(w http.ResponseWriter, r *http.Request) {
 	news_source := r.URL.Query().Get("text")
 	log.Println(news_source)
-	w.Write([]byte("Getting stories for %s\n", news_source))
+	w.Write([]byte("Getting stories for " + news_source))
 }
