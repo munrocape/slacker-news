@@ -13,6 +13,7 @@ func main() {
 
 	// Start our Server
 	log.Println("Starting Server on", *port)
+	getHnTop10()
 	http.HandleFunc("/", index)
 	http.HandleFunc("/news", news)
 	log.Fatal(http.ListenAndServe(":"+*port, nil))
@@ -25,5 +26,15 @@ func index(w http.ResponseWriter, r *http.Request) {
 func news(w http.ResponseWriter, r *http.Request) {
 	news_source := r.URL.Query().Get("text")
 	log.Println(news_source)
-	w.Write([]byte("Getting stories for " + news_source))
+	switch {
+	case news_source == "hn":
+		stories, err := getHnTop10()
+		if err == nil {
+			w.Write([]byte(stories))
+		} else {
+			w.Write([]byte("Server Error - Firebase could not be reached"))
+		}
+		return
+	}
+	w.Write([]byte("can't find that one! " + news_source))
 }
