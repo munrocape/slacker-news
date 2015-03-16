@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	hn "github.com/caser/gophernews"
 	"strings"
 	"time"
@@ -47,6 +48,7 @@ func generateNewResponse() (string, error) {
 			urls[index] = "Server Error - Firebase did not return the story information."
 		}
 	}
+	
 	response := strings.Join(urls[:], "\n")
 	currentTimestamp = time.Now().Local()
 	return response, nil
