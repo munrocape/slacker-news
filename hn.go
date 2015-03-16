@@ -43,12 +43,12 @@ func generateNewResponse() (string, error) {
 		index = index + 1
 		story, err := fetchStory(element)
 		if err == nil {
-			urls[index] = fmt.Sprintf("<%s|%d. %s>", story.URL, index+1, story.Title)
+			urls[index] = fmt.Sprintf("<%s|%d. %s>", story.URL, index, story.Title)
 		} else {
 			urls[index] = "Server Error - Firebase did not return the story information."
 		}
 	}
-	
+
 	response := strings.Join(urls[:], "\n")
 	currentTimestamp = time.Now().Local()
 	return response, nil
