@@ -13,7 +13,6 @@ func main() {
 
 	// Start our Server
 	log.Println("Starting Server on", *port)
-	getHnTop10()
 	http.HandleFunc("/", index)
 	http.HandleFunc("/news", news)
 	log.Fatal(http.ListenAndServe(":"+*port, nil))
