@@ -1,4 +1,4 @@
-package main
+package slackernews
 
 import (
 	"fmt"
@@ -23,7 +23,7 @@ func getHnTop10() (string, error) {
 
 func expiredResponse() bool {
 	timeSinceLast := time.Since(currentTimestamp)
-	if timeSinceLast > (10 * time.Minute) {
+	if timeSinceLast > timeToExpire {
 		return true
 	}
 	return false
@@ -43,7 +43,7 @@ func generateNewResponse() (string, error) {
 		index = index + 1
 		story, err := fetchStory(element)
 		if err == nil {
-			urls[index] = fmt.Sprintf("<%s|%d. %s>", story.URL, index, story.Title)
+			urls[index] = fmt.Sprintf("<%s|%d. %s> - [<https://news.ycombinator.com/item?id=%d|Discussion>]", story.URL, index, story.Title, element)
 		} else {
 			urls[index] = "Server Error - Firebase did not return the story information."
 		}
@@ -63,15 +63,15 @@ func getClient() *hn.Client {
 
 func fetchStory(element int) (hn.Story, error) {
 	c := getClient()
-	// for some reason, Firebase returns EOF on occasion
-	// retry a few times in case this happens
 	var err error
 	var story hn.Story
+	// for some reason, Firebase returns EOF on occasion
+	// retry a few times in case this happens
 	for i := 0; i < 5; i++ {
 		story, err = c.GetStory(element)
 		if err == nil {
 			return story, err
 		}
 	}
-	return *new(hn.Story), err
+	return story, err
 }

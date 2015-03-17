@@ -1,15 +1,23 @@
-package main
+package slackernews
 
 import (
 	"flag"
 	"log"
 	"net/http"
+	"time"
+)
+
+var (
+	timeToExpire time.Duration
 )
 
 func main() {
 	// Parse port from command-line parameters
 	port := flag.String("port", "8080", "HTTP Port to listen on")
 	flag.Parse()
+
+	// declare variables
+	timeToExpire = 10 * time.Minute
 
 	// Start our Server
 	log.Println("Starting Server on", *port)
@@ -19,7 +27,7 @@ func main() {
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Slacker News, a slack integration. Check it out at www.github.com/munrocape/slacker-news"))
+	w.Write([]byte("Slacker News, a slack integration to provide current news. Check it out at www.github.com/munrocape/slacker-news"))
 }
 
 func news(w http.ResponseWriter, r *http.Request) {
