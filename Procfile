@@ -1,1 +1,1 @@
-web: slacker-news -port=$PORT
+web: ./slacker-news -port=$PORT
