@@ -1,4 +1,4 @@
-package slackernews
+package main
 
 import (
 	"fmt"
