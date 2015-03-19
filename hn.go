@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	hn "github.com/caser/gophernews"
+	hn "github.com/munrocape/hn/client"
 	"strings"
 	"time"
 )
@@ -32,7 +32,7 @@ func expiredResponse() bool {
 func generateNewResponse() (string, error) {
 	c := getClient()
 	var stories []int
-	stories, err := c.GetTop100()
+	stories, err := c.GetTopStories(10)
 	if err != nil {
 		return "", err
 	}
@@ -41,9 +41,9 @@ func generateNewResponse() (string, error) {
 	urls[0] = "Top Stories from Hacker News"
 	for index, element := range stories[:10] {
 		index = index + 1
-		story, err := fetchStory(element)
+		story, err := c.GetStory(element)
 		if err == nil {
-			urls[index] = fmt.Sprintf("<%s|%d. %s> - [<https://news.ycombinator.com/item?id=%d|Discussion>]", story.URL, index, story.Title, element)
+			urls[index] = fmt.Sprintf("<%s|%d. %s> - [<https://news.ycombinator.com/item?id=%d|%d comments>]", story.Url, index, story.Title, element, story.Descendants)
 		} else {
 			urls[index] = "Server Error - Firebase did not return the story information."
 		}
@@ -59,19 +59,4 @@ func getClient() *hn.Client {
 		client = hn.NewClient()
 	}
 	return client
-}
-
-func fetchStory(element int) (hn.Story, error) {
-	c := getClient()
-	var err error
-	var story hn.Story
-	// for some reason, Firebase returns EOF on occasion
-	// retry a few times in case this happens
-	for i := 0; i < 5; i++ {
-		story, err = c.GetStory(element)
-		if err == nil {
-			return story, err
-		}
-	}
-	return story, err
 }
