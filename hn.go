@@ -2,44 +2,45 @@ package main
 
 import (
 	"fmt"
-	hn "github.com/munrocape/hn/client"
+	hn "github.com/munrocape/hn/hnclient"
 	"strings"
 	"time"
 )
 
 var (
-	client           *hn.Client
-	currentResponse  string
-	currentTimestamp time.Time
+	HnClient           *hn.Client
+	currentHnResponse  string
+	currentHnTimestamp time.Time
 )
 
 func getHnTop10() (string, error) {
 	var err error
-	if expiredResponse() {
-		currentResponse, err = generateNewResponse()
+	if expiredHnResponse() {
+		currentHnResponse, err = generateNewHnResponse()
 	}
-	return currentResponse, err
+	return currentHnResponse, err
 }
 
-func expiredResponse() bool {
-	timeSinceLast := time.Since(currentTimestamp)
+func expiredHnResponse() bool {
+	timeSinceLast := time.Since(currentHnTimestamp)
 	if timeSinceLast > timeToExpire {
 		return true
 	}
 	return false
 }
 
-func generateNewResponse() (string, error) {
-	c := getClient()
+func generateNewHnResponse() (string, error) {
+	c := getHnClient()
 	var stories []int
-	stories, err := c.GetTopStories(10)
+	count := 10
+	stories, err := c.GetTopStories(count)
 	if err != nil {
 		return "", err
 	}
 
 	var urls [11]string
 	urls[0] = "Top Stories from Hacker News"
-	for index, element := range stories[:10] {
+	for index, element := range stories[:count] {
 		index = index + 1
 		story, err := c.GetStory(element)
 		if err == nil {
@@ -50,13 +51,13 @@ func generateNewResponse() (string, error) {
 	}
 
 	response := strings.Join(urls[:], "\n")
-	currentTimestamp = time.Now().Local()
+	currentHnTimestamp = time.Now().Local()
 	return response, nil
 }
 
-func getClient() *hn.Client {
-	if client == nil {
-		client = hn.NewClient()
+func getHnClient() *hn.Client {
+	if HnClient == nil {
+		HnClient = hn.NewClient()
 	}
-	return client
+	return HnClient
 }
