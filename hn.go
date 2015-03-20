@@ -42,9 +42,20 @@ func generateNewHnResponse() (string, error) {
 	urls[0] = "Top Stories from Hacker News"
 	for index, element := range stories[:count] {
 		index = index + 1
-		story, err := c.GetStory(element)
+		item, err := c.GetItem(element)
+
 		if err == nil {
-			urls[index] = fmt.Sprintf("<%s|%d. %s> - [<https://news.ycombinator.com/item?id=%d|%d comments>]", story.Url, index, story.Title, element, story.Descendants)
+			if (item.Type == "story"){
+				if (item.Url == ""){
+					// It is an AskHN post
+					urls[index] = fmt.Sprintf("<https://news.ycombinator.com/item?id=%d|%d. %s> - [<https://news.ycombinator.com/item?id=%d|%d comments>]", element, index, item.Title, element, item.Descendants)
+				} else {
+					urls[index] = fmt.Sprintf("<%s|%d. %s> - [<https://news.ycombinator.com/item?id=%d|%d comments>]", item.Url, index, item.Title, element, item.Descendants)
+				}
+				
+			} else {
+				urls[index] = fmt.Sprintf("<https://news.ycombinator.com/item?id=%d|%d. %s>", element, index, item.Title)
+			}
 		} else {
 			urls[index] = "Server Error - Firebase did not return the story information."
 		}
