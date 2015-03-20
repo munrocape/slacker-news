@@ -44,7 +44,7 @@ func generateNewPhResponse() (string, error) {
 		index = index + 1
 		if index < 11 {
 			if err == nil {
-				urls[index] = fmt.Sprintf("<%s|%d. %s> - [<%s|%d comments>]", post.RedirectUrl, index, post.Tagline, post.DiscussionUrl, post.CommentsCount)
+				urls[index] = fmt.Sprintf("<%s|%d. %s>: %s - [<%s|%d comments>]", post.RedirectUrl, index, post.Name, post.Tagline, post.DiscussionUrl, post.CommentsCount)
 			} else {
 				urls[index] = "Server Error - Firebase did not return the submission information."
 			}
