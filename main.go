@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"flag"
 	"log"
 	"net/http"
@@ -50,6 +51,16 @@ func news(w http.ResponseWriter, r *http.Request) {
 			w.Write([]byte("Server Error - Product Hunt could not be reached"))
 		}
 		return
+	case news_source == "list_sources":
+		w.Write([]byte(GetSources()))
+		return
 	}
-	w.Write([]byte("can't find that one! " + news_source))
+	w.Write([]byte("Hmm.. I can't figure out what news you are looking for :( I received \"" + news_source + "\"\nTry `/news list_sources` to view all sources."))
+}
+
+func GetSources() string {
+	hn := "Hacker News: hn\n"
+	ph := "Product Hunt: ph\n"
+	bbc := "BBC: " + GetBbcSources() + "\n"
+	return fmt.Sprintf("%s%s%s", hn, ph, bbc)
 }

@@ -40,11 +40,10 @@ func generateNewPhResponse() (string, error) {
 	var urls [11]string
 	urls[0] = "Top Stories from Product Hunt"
 	for index, element := range posts.Posts {
-		post := element
 		index = index + 1
 		if index < 11 {
 			if err == nil {
-				urls[index] = fmt.Sprintf("<%s|%d. %s>: %s - [<%s|%d comments>]", post.RedirectUrl, index, post.Name, post.Tagline, post.DiscussionUrl, post.CommentsCount)
+				urls[index] = fmt.Sprintf("<%s|%d. %s>: %s - [<%s|%d comments>]", element.RedirectUrl, index, element.Name, element.Tagline, element.DiscussionUrl, element.CommentsCount)
 			} else {
 				urls[index] = "Server Error - Firebase did not return the submission information."
 			}
