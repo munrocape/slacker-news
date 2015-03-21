@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"flag"
+	"strings"
 	"log"
 	"net/http"
 	"time"
@@ -34,8 +35,15 @@ func index(w http.ResponseWriter, r *http.Request) {
 func news(w http.ResponseWriter, r *http.Request) {
 	news_source := r.URL.Query().Get("text")
 	log.Println(news_source)
+	tokens := strings.Split(news_source, " ")
+	var source, argument string
+	if (len(tokens) == 2){
+		source, argument = tokens[0], tokens[1]
+	} else {
+		source, argument = tokens[0], ""
+	}
 	switch {
-	case news_source == "hn":
+	case source == "hn":
 		stories, err := getHnTop10()
 		if err == nil {
 			w.Write([]byte(stories))
@@ -43,7 +51,7 @@ func news(w http.ResponseWriter, r *http.Request) {
 			w.Write([]byte("Server Error - Firebase could not be reached"))
 		}
 		return
-	case news_source == "ph":
+	case source == "ph":
 		posts, err := GetPhTop10()
 		if err == nil {
 			w.Write([]byte(posts))
@@ -51,16 +59,25 @@ func news(w http.ResponseWriter, r *http.Request) {
 			w.Write([]byte("Server Error - Product Hunt could not be reached"))
 		}
 		return
-	case news_source == "list_sources":
+	case source == "bbc":
+		articles, err := GetBbcTop10(argument)
+		if err == nil {
+			w.Write([]byte(articles))
+		} else {
+			w.Write([]byte("Server Error - the BBC could not be reached"))
+		}
+		return
+	case source == "list_sources":
 		w.Write([]byte(GetSources()))
 		return
 	}
-	w.Write([]byte("Hmm.. I can't figure out what news you are looking for :( I received \"" + news_source + "\"\nTry `/news list_sources` to view all sources."))
+	user_argument := fmt.Sprintf("%s %s", source, argument)
+	w.Write([]byte("Hmm.. I can't figure out what news you are looking for :( I received \"" + strings.TrimSpace(user_argument) + "\"\nTry `/news list_sources` to view all sources."))
 }
 
 func GetSources() string {
 	hn := "Hacker News: hn\n"
 	ph := "Product Hunt: ph\n"
-	bbc := "BBC: " + GetBbcSources() + "\n"
+	bbc := "BBC: bbc [" + GetBbcSources() + "]\n"
 	return fmt.Sprintf("%s%s%s", hn, ph, bbc)
 }
