@@ -96,6 +96,12 @@ func news(w http.ResponseWriter, r *http.Request) {
 	case source == "list_sources":
 		w.Write([]byte(GetSources()))
 		return
+	case source == "help":
+		w.Write([]byte(GetSources()))
+		return
+	case source == "-h":
+		w.Write([]byte(GetSources()))
+		return
 	}
 	user_argument := fmt.Sprintf("%s %s", source, argument)
 	w.Write([]byte("Hmm.. I can't figure out what news you are looking for :( I received \"" + strings.TrimSpace(user_argument) + "\"\nTry `/news list_sources` to view all sources."))
