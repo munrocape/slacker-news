@@ -43,7 +43,7 @@ func generateNewViceResponse() (string, error) {
 	for index, element := range items {
 		index = index + 1
 		if index < 11 {
-			urls[index] = fmt.Sprintf("<%s|%d. %s>", element.Link, index, element.Title)
+			urls[index] = fmt.Sprintf("%d. <%s|%s>", index, element.Link, element.Title)
 
 		}
 	}

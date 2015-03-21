@@ -48,13 +48,13 @@ func generateNewHnResponse() (string, error) {
 			if item.Type == "story" {
 				if item.Url == "" {
 					// It is an AskHN post
-					urls[index] = fmt.Sprintf("<https://news.ycombinator.com/item?id=%d|%d. %s> - [<https://news.ycombinator.com/item?id=%d|%d comments>]", element, index, item.Title, element, item.Descendants)
+					urls[index] = fmt.Sprintf("%d. <https://news.ycombinator.com/item?id=%d|%s> - [<https://news.ycombinator.com/item?id=%d|%d comments>]", index, element, item.Title, element, item.Descendants)
 				} else {
-					urls[index] = fmt.Sprintf("<%s|%d. %s> - [<https://news.ycombinator.com/item?id=%d|%d comments>]", item.Url, index, item.Title, element, item.Descendants)
+					urls[index] = fmt.Sprintf("%d. <%s|%s> - [<https://news.ycombinator.com/item?id=%d|%d comments>]", index, item.Url, item.Title, element, item.Descendants)
 				}
 
 			} else {
-				urls[index] = fmt.Sprintf("<https://news.ycombinator.com/item?id=%d|%d. %s>", element, index, item.Title)
+				urls[index] = fmt.Sprintf("%d. <https://news.ycombinator.com/item?id=%d|%s>", index, element, item.Title)
 			}
 		} else {
 			urls[index] = "Server Error - Firebase did not return the story information."
