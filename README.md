@@ -22,3 +22,18 @@ Set up [a new slash command](my.slack.com/services/new/slash-commands).
 3. Change the `Method` to be GET from the default POST.
 
 Voila! You are set up and ready to receive new and trending news in Slack. The remaining fields you can set to your preference or leave as they are. 
+
+## Usage
+
+The standard usage is as follows: `/news [source] [category]`
+
+The following table outlines the possibilities for source and category.
+
+| News Source  | source | category  
+| ------------- | ------------- | ------------- |
+| the BBC  | bbc  | [uk, business, health, education, entertainment, world, science, tech, top, politics, golf, snooker, sports, football, cricket, rugby, rugby_league, tennis]  | 
+| FiveThirtyEight  | 538  | [economics, sports, science, life, all, features, data, politics]  | 
+| Hacker News  | hn  | N/A  | 
+| Product Hunt  | ph  | N/A  | 
+| Vice News  | vice  | N/A  | 
+
