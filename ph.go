@@ -38,7 +38,7 @@ func generateNewPhResponse() (string, error) {
 	}
 
 	var urls [11]string
-	urls[0] = "Top Stories from Product Hunt"
+	urls[0] = "Top Stories from <www.producthunt.com|Product Hunt>"
 	for index, element := range posts.Posts {
 		index = index + 1
 		if index < 11 {

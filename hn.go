@@ -39,7 +39,7 @@ func generateNewHnResponse() (string, error) {
 	}
 
 	var urls [11]string
-	urls[0] = "Top Stories from Hacker News"
+	urls[0] = "Top Stories from <www.news.ycombinator.com|Hacker News>"
 	for index, element := range stories[:count] {
 		index = index + 1
 		item, err := c.GetItem(element)

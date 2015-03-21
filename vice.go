@@ -38,7 +38,7 @@ func generateNewViceResponse() (string, error) {
 	}
 
 	var urls [11]string
-	urls[0] = "Top Stories from Vice News"
+	urls[0] = "Top Stories from <https://www.vice.com|Vice News>"
 	items := rss.Channel.Items
 	for index, element := range items {
 		index = index + 1

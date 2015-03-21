@@ -66,15 +66,30 @@ func news(w http.ResponseWriter, r *http.Request) {
 		} else {
 			w.Write([]byte("Server Error - Vice News could not be reached"))
 		}
+		return
 	case source == "bbc":
 		articles, err := GetBbcTop10(argument)
 		if err == nil {
 			w.Write([]byte(articles))
 		} else {
 			if strings.Contains(err.Error(), "Invalid feed selection") {
-				w.Write([]byte("That is an invalid BBC category: %s\nTry `/news list_sources` to view all sources."))
+				response := fmt.Sprintf("That is an invalid BBC category: %s\nTry `/news list_sources` to view all sources.", argument)
+				w.Write([]byte(response))
 			} else {
 				w.Write([]byte("Server Error - the BBC could not be reached"))
+			}
+		}
+		return
+	case source == "538":
+		articles, err := GetFteTop10(argument)
+		if err == nil {
+			w.Write([]byte(articles))
+		} else {
+			if strings.Contains(err.Error(), "Invalid feed selection") {
+				response := fmt.Sprintf("That is an invalid FiveThirtyEight category: %s\nTry `/news list_sources` to view all sources.", argument)
+				w.Write([]byte(response))
+			} else {
+				w.Write([]byte("Server Error - FiveThirtyEight could not be reached"))
 			}
 		}
 		return
