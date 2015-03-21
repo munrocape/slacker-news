@@ -2,15 +2,15 @@ package main
 
 import (
 	"fmt"
-	bbc  "github.com/munrocape/bbc/bbcclient"
+	bbc "github.com/munrocape/bbc/bbcclient"
 	"strings"
 	"time"
 )
 
 var (
 	BbcClient           *bbc.Client
-	currentBbcResponses  map[string]string
-	bbcTimestamps map[string]time.Time
+	currentBbcResponses map[string]string
+	bbcTimestamps       map[string]time.Time
 )
 
 func GetBbcTop10(category string) (string, error) {
@@ -35,11 +35,7 @@ func generateNewBbcResponse(category string) (string, error) {
 	c := getBbcClient()
 	rss, err := c.GetFeed(category)
 	if err != nil {
-		if (strings.Contains(err.Error(), "Invalid feed selection")){
-			return fmt.Sprintf("That is an invalid BBC source - %s", category), nil
-		} else {
-			return "", err
-		}
+		return "", err
 	}
 
 	var urls [11]string
@@ -47,7 +43,7 @@ func generateNewBbcResponse(category string) (string, error) {
 	items := rss.Channel.Items
 	for index, element := range items {
 		index = index + 1
-		if (index < 11){
+		if index < 11 {
 			urls[index] = fmt.Sprintf("<%s|%d. %s>\n\t%s", element.Link, index, element.Title, element.Description)
 		}
 	}
@@ -62,13 +58,13 @@ func GetBbcSources() string {
 	res := ""
 	first := true
 	for k, _ := range c.NewsCategories {
-		if (first){
+		if first {
 			res = res + k
 			first = false
 		} else {
 			res = res + ", " + k
 		}
-		
+
 	}
 	for k, _ := range c.SportsCategories {
 		res = res + ", " + k

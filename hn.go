@@ -45,14 +45,14 @@ func generateNewHnResponse() (string, error) {
 		item, err := c.GetItem(element)
 
 		if err == nil {
-			if (item.Type == "story"){
-				if (item.Url == ""){
+			if item.Type == "story" {
+				if item.Url == "" {
 					// It is an AskHN post
 					urls[index] = fmt.Sprintf("<https://news.ycombinator.com/item?id=%d|%d. %s> - [<https://news.ycombinator.com/item?id=%d|%d comments>]", element, index, item.Title, element, item.Descendants)
 				} else {
 					urls[index] = fmt.Sprintf("<%s|%d. %s> - [<https://news.ycombinator.com/item?id=%d|%d comments>]", item.Url, index, item.Title, element, item.Descendants)
 				}
-				
+
 			} else {
 				urls[index] = fmt.Sprintf("<https://news.ycombinator.com/item?id=%d|%d. %s>", element, index, item.Title)
 			}

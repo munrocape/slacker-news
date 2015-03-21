@@ -1,11 +1,11 @@
 package main
 
 import (
-	"fmt"
 	"flag"
-	"strings"
+	"fmt"
 	"log"
 	"net/http"
+	"strings"
 	"time"
 )
 
@@ -37,7 +37,7 @@ func news(w http.ResponseWriter, r *http.Request) {
 	log.Println(news_source)
 	tokens := strings.Split(news_source, " ")
 	var source, argument string
-	if (len(tokens) == 2){
+	if len(tokens) == 2 {
 		source, argument = tokens[0], tokens[1]
 	} else {
 		source, argument = tokens[0], ""
@@ -59,12 +59,23 @@ func news(w http.ResponseWriter, r *http.Request) {
 			w.Write([]byte("Server Error - Product Hunt could not be reached"))
 		}
 		return
+	case source == "vice":
+		articles, err := GetViceTop10()
+		if err == nil {
+			w.Write([]byte(articles))
+		} else {
+			w.Write([]byte("Server Error - Vice News could not be reached"))
+		}
 	case source == "bbc":
 		articles, err := GetBbcTop10(argument)
 		if err == nil {
 			w.Write([]byte(articles))
 		} else {
-			w.Write([]byte("Server Error - the BBC could not be reached"))
+			if strings.Contains(err.Error(), "Invalid feed selection") {
+				w.Write([]byte("That is an invalid BBC category: %s\nTry `/news list_sources` to view all sources."))
+			} else {
+				w.Write([]byte("Server Error - the BBC could not be reached"))
+			}
 		}
 		return
 	case source == "list_sources":
@@ -78,6 +89,7 @@ func news(w http.ResponseWriter, r *http.Request) {
 func GetSources() string {
 	hn := "Hacker News: hn\n"
 	ph := "Product Hunt: ph\n"
+	vice := "Vice News: vice\n"
 	bbc := "BBC: bbc [" + GetBbcSources() + "]\n"
-	return fmt.Sprintf("%s%s%s", hn, ph, bbc)
+	return fmt.Sprintf("%s%s%s%s", hn, ph, vice, bbc)
 }
