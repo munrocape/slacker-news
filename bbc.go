@@ -35,11 +35,15 @@ func generateNewBbcResponse(category string) (string, error) {
 	c := getBbcClient()
 	rss, err := c.GetFeed(category)
 	if err != nil {
-		return "", err
+		if (strings.Contains(err.Error(), "Invalid feed selection")){
+			return fmt.Sprintf("That is an invalid BBC source - %s", category), nil
+		} else {
+			return "", err
+		}
 	}
 
 	var urls [11]string
-	urls[0] = "Top Stories from BBC " + category
+	urls[0] = "Top Stories from BBC " + c.GetPretty(category)
 	items := rss.Channel.Items
 	for index, element := range items {
 		index = index + 1
