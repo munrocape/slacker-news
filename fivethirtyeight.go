@@ -39,7 +39,10 @@ func generateNewFteResponse(category string) (string, error) {
 	}
 
 	var urls [11]string
-	urls[0] = "Top Stories from <http://www.fivethirtyeight.com|Five Thirty Eight> " + c.GetPretty(category)
+	pretty := c.GetPretty(category)
+	homepage := fmt.Sprintf("http://www.fivethirtyeight.com/%s", pretty)
+	title := fmt.Sprintf("Top Stories from <%s|Five Thirty Eight %s", homepage, pretty)
+	urls[0] = title
 	items := rss.Channel.Items
 	for index, element := range items {
 		index = index + 1

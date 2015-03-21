@@ -39,12 +39,13 @@ func generateNewBbcResponse(category string) (string, error) {
 	}
 
 	var urls [11]string
-	urls[0] = "Top Stories from BBC " + c.GetPretty(category)
+	var url = c.GetUrl(category)
+	urls[0] = fmt.Sprintf("Top Stories from <%s|BBC %s>", url, c.GetPretty(category))
 	items := rss.Channel.Items
 	for index, element := range items {
 		index = index + 1
 		if index < 11 {
-			urls[index] = fmt.Sprintf("<%s|%d. %s>\n\t%s", element.Link, index, element.Title, element.Description)
+			urls[index] = fmt.Sprintf("<%s|%d. %s>", element.Link, index, element.Title)
 		}
 	}
 

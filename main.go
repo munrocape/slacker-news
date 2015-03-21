@@ -105,6 +105,7 @@ func GetSources() string {
 	hn := "Hacker News: hn\n"
 	ph := "Product Hunt: ph\n"
 	vice := "Vice News: vice\n"
+	fte := "FiveThirtyEight: 538 [" + GetFteSources() + "]\n"
 	bbc := "BBC: bbc [" + GetBbcSources() + "]\n"
-	return fmt.Sprintf("%s%s%s%s", hn, ph, vice, bbc)
+	return fmt.Sprintf("%s%s%s%s%s", hn, ph, vice, fte, bbc)
 }
