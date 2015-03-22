@@ -33,6 +33,7 @@ func index(w http.ResponseWriter, r *http.Request) {
 }
 
 func news(w http.ResponseWriter, r *http.Request) {
+	fmt.Printf("%s\n", r.Method)
 	news_source := r.URL.Query().Get("text")
 	log.Println(news_source)
 	tokens := strings.Split(news_source, " ")
@@ -117,4 +118,12 @@ func GetSources() string {
 	fte := "FiveThirtyEight: 538 [" + GetFteSources() + "]\n"
 	bbc := "BBC: bbc [" + GetBbcSources() + "]\n"
 	return fmt.Sprintf("%s%s%s%s%s", hn, ph, vice, fte, bbc)
+}
+
+func ExpiredResponse(timestamp time.Time) bool {
+	timeSinceLast := time.Since(timestamp)
+	if timeSinceLast > timeToExpire {
+		return true
+	}
+	return false
 }

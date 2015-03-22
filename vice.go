@@ -15,18 +15,10 @@ var (
 
 func GetViceTop10() (string, error) {
 	var err error
-	if expiredViceResponse() {
+	if ExpiredResponse(currentViceTimestamp) {
 		currentViceResponse, err = generateNewViceResponse()
 	}
 	return currentViceResponse, err
-}
-
-func expiredViceResponse() bool {
-	timeSinceLast := time.Since(currentViceTimestamp)
-	if timeSinceLast > timeToExpire {
-		return true
-	}
-	return false
 }
 
 func generateNewViceResponse() (string, error) {

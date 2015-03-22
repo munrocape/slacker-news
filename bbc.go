@@ -16,19 +16,11 @@ var (
 func GetBbcTop10(category string) (string, error) {
 	var err error
 	var rep string
-	if expiredBbcResponse(bbcTimestamps[category]) {
+	if ExpiredResponse(bbcTimestamps[category]) {
 		rep, err = generateNewBbcResponse(category)
 		currentBbcResponses[category] = rep
 	}
 	return currentBbcResponses[category], err
-}
-
-func expiredBbcResponse(timestamp time.Time) bool {
-	timeSinceLast := time.Since(timestamp)
-	if timeSinceLast > timeToExpire {
-		return true
-	}
-	return false
 }
 
 func generateNewBbcResponse(category string) (string, error) {
@@ -78,26 +70,6 @@ func getBbcClient() *bbc.Client {
 		BbcClient = bbc.NewClient()
 		currentBbcResponses = make(map[string]string)
 		bbcTimestamps = make(map[string]time.Time)
-		initializeTimestampMap(BbcClient)
-		initializeResponseMap(BbcClient)
 	}
 	return BbcClient
-}
-
-func initializeTimestampMap(c *bbc.Client) {
-	for k, _ := range c.NewsCategories {
-		bbcTimestamps[k] = time.Now().Local().AddDate(0, 0, -11)
-	}
-	for k, _ := range c.SportsCategories {
-		bbcTimestamps[k] = time.Now().Local().AddDate(0, 0, -11)
-	}
-}
-
-func initializeResponseMap(c *bbc.Client) {
-	for k, _ := range c.NewsCategories {
-		currentBbcResponses[k] = ""
-	}
-	for k, _ := range c.SportsCategories {
-		currentBbcResponses[k] = ""
-	}
 }

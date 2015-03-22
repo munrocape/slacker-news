@@ -15,18 +15,10 @@ var (
 
 func GetPhTop10() (string, error) {
 	var err error
-	if expiredPhResponse() {
+	if ExpiredResponse(currentPhTimestamp) {
 		currentPhResponse, err = generateNewPhResponse()
 	}
 	return currentPhResponse, err
-}
-
-func expiredPhResponse() bool {
-	timeSinceLast := time.Since(currentPhTimestamp)
-	if timeSinceLast > timeToExpire {
-		return true
-	}
-	return false
 }
 
 func generateNewPhResponse() (string, error) {

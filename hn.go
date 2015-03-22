@@ -15,18 +15,10 @@ var (
 
 func getHnTop10() (string, error) {
 	var err error
-	if expiredHnResponse() {
+	if ExpiredResponse(currentHnTimestamp) {
 		currentHnResponse, err = generateNewHnResponse()
 	}
 	return currentHnResponse, err
-}
-
-func expiredHnResponse() bool {
-	timeSinceLast := time.Since(currentHnTimestamp)
-	if timeSinceLast > timeToExpire {
-		return true
-	}
-	return false
 }
 
 func generateNewHnResponse() (string, error) {
