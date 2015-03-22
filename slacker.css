@@ -1,0 +1,11 @@
+html {
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+.header{
+	padding-top:30px;
+}
+
+#logo {
+	height:150px;
+}
