@@ -29,6 +29,11 @@ html {
 	background-color:#84DCC6;
 }
 
+.info-background-usage{
+	margin-top:10px;
+	background-color:#B7D3F2;
+}
+
 .tag-line{
 	padding-left:3em;
 	padding-right:3em;
