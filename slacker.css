@@ -10,8 +10,23 @@ html {
 	height:200px;
 }
 
-.info-background{
-	background-color:#E8F1F2;
+.info-background-pink{
+	background-color:#FFA0FD;
+}
+
+.info-background-blue{
+	margin-top:10px;
+	background-color:#8093F1;
+}
+
+.info-background-green{
+	margin-top:10px;
+	background-color:#16BAC5;
+}
+
+.info-background-purple{
+	margin-top:10px;
+	background-color:#84DCC6;
 }
 
 .tag-line{
