@@ -9,3 +9,21 @@ html {
 #logo {
 	height:200px;
 }
+
+.info-background{
+	background-color:#E8F1F2;
+}
+
+.tag-line{
+	padding-left:3em;
+	padding-right:3em;
+	text-align:center;
+}
+
+.gif {
+	padding-top:50px;
+}
+
+#install-header{
+	text-decoration: underline;
+}
