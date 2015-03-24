@@ -8,6 +8,9 @@ html {
 
 #logo {
 	height:200px;
+	display: block;
+	width: auto;
+	margin: auto;
 }
 
 .info-background-pink{
