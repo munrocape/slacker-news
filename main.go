@@ -33,7 +33,6 @@ func index(w http.ResponseWriter, r *http.Request) {
 }
 
 func news(w http.ResponseWriter, r *http.Request) {
-	fmt.Printf("%s\n", r.Method)
 	news_source := r.URL.Query().Get("text")
 	log.Println(news_source)
 	tokens := strings.Split(news_source, " ")
@@ -94,13 +93,7 @@ func news(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 		return
-	case source == "list_sources":
-		w.Write([]byte(GetSources()))
-		return
 	case source == "help":
-		w.Write([]byte(GetSources()))
-		return
-	case source == "-h":
 		w.Write([]byte(GetSources()))
 		return
 	case source == "":
