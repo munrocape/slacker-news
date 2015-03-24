@@ -11,7 +11,7 @@ The following sites are supported:
 
 ## Installation
 
-Set up [a new slash command](my.slack.com/services/new/slash-commands).
+Set up [a new slash command](http://my.slack.com/services/new/slash-commands).
 
 1. The first thing to assign is a name for the command. 
    
