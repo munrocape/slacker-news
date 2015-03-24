@@ -17,7 +17,7 @@ Set up [a new slash command](http://my.slack.com/services/new/slash-commands).
    
    Select something memorable like `/news` and then click `"Add Slash Command Integration"`
 
-2. Change the `Url` to be `www.slckr-nws.heroku.com`
+2. Change the `Url` to be `http://slckr-nws.heroku.com`
 
 3. Change the `Method` to be GET from the default POST.
 
