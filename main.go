@@ -73,7 +73,7 @@ func news(w http.ResponseWriter, r *http.Request) {
 			w.Write([]byte(articles))
 		} else {
 			if strings.Contains(err.Error(), "Invalid feed selection") {
-				response := fmt.Sprintf("That is an invalid BBC category: %s\nTry `/news list_sources` to view all sources.", argument)
+				response := fmt.Sprintf("That is an invalid BBC category: %s\nTry `/news help` to view all sources.", argument)
 				w.Write([]byte(response))
 			} else {
 				w.Write([]byte("Server Error - the BBC could not be reached"))
@@ -86,11 +86,23 @@ func news(w http.ResponseWriter, r *http.Request) {
 			w.Write([]byte(articles))
 		} else {
 			if strings.Contains(err.Error(), "Invalid feed selection") {
-				response := fmt.Sprintf("That is an invalid FiveThirtyEight category: %s\nTry `/news list_sources` to view all sources.", argument)
+				response := fmt.Sprintf("That is an invalid FiveThirtyEight category: %s\nTry `/news help` to view all sources.", argument)
 				w.Write([]byte(response))
 			} else {
 				w.Write([]byte("Server Error - FiveThirtyEight could not be reached"))
 			}
+		}
+		return
+	case source == "dn":
+		stories, err := GetDnArgument(argument)
+		if err == nil {
+			w.Write([]byte(stories))
+		} else {
+			if strings.Contains(err.Error(), "Invalid argument"){
+				w.Write([]byte("Invalid argument - try `/news help` to view valid selections."))
+			} else {
+				w.Write([]byte("Server Error - Designer News could not be reached"))
+			}	
 		}
 		return
 	case source == "help":
@@ -101,7 +113,7 @@ func news(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	user_argument := fmt.Sprintf("%s %s", source, argument)
-	w.Write([]byte("Hmm.. I can't figure out what news you are looking for :( I received \"" + strings.TrimSpace(user_argument) + "\"\nTry `/news list_sources` to view all sources."))
+	w.Write([]byte("Hmm.. I can't figure out what news you are looking for :( I received \"" + strings.TrimSpace(user_argument) + "\"\nTry `/news help` to view all sources."))
 }
 
 func GetSources() string {
