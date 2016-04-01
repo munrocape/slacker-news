@@ -120,7 +120,7 @@ func GetSources() string {
 	hn := "Hacker News: hn\n"
 	ph := "Product Hunt: ph\n"
 	vice := "Vice News: vice\n"
-	designer := "Designer News: dn [stories, motd]"
+	designer := "Designer News: dn [stories, motd]\n"
 	fte := "FiveThirtyEight: 538 [" + GetFteSources() + "]\n"
 	bbc := "BBC: bbc [" + GetBbcSources() + "]\n"
 	return fmt.Sprintf("%s%s%s%s%s%s", hn, ph, vice, designer, fte, bbc)
