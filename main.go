@@ -35,7 +35,7 @@ func index(w http.ResponseWriter, r *http.Request) {
 func news(w http.ResponseWriter, r *http.Request) {
 	news_source := r.URL.Query().Get("text")
 	log.Println(news_source)
-	tokens := strings.Split(news_source, " ")
+	tokens := strings.Split(strings.ToLower(news_source), " ")
 	var source, argument string
 	if len(tokens) == 2 {
 		source, argument = tokens[0], tokens[1]
